@@ -242,6 +242,23 @@ In other words, after the conversion:
 - the `--root` path name can remain unchanged
 - but its contents will have changed from a v3.0 layout to a v2.1 layout
 
+> [!TIP] 
+> 
+> There is a converter for "LeRobot v3.0 -> LeRobot v2.1" in the path:
+>
+> ```bash
+> tools/lerobot_v30_to_v21_converter.py
+> ```
+> 
+> You can use it simply by 
+>
+> ```bash
+> python tools/lerobot_v30_to_v21_converter.py \
+>  --input_dir <path_to_v30_dataset> \
+>  --output_dir <path_to_v21_dataset>
+> ```
+
+
 ## 5. Key Consistency Requirements
 
 Regardless of whether you use our internal scripts, the final dataset should satisfy the following consistency requirements:
