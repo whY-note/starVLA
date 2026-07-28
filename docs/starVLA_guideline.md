@@ -38,8 +38,18 @@ pip install -r requirements.txt
 pip install flash-attn --no-build-isolation
 pip install -e .
 ```
+
+After you install `flash-attn`, you can verify by
+
+```bash
+python -c "import flash_attn; print(flash_attn.__version__)"
+```
+
+If return the version of `flash-attn`,like `2.x.x.xxx`, that means you have installed `flash-attn` successfully and it can be imported successfully.
+
+
 <details>
-<summary><b>⚠️ Common Issues</b></summary>
+<summary><b>⚠️ Common Issues1</b></summary>
 
 flash-attn can be tricky to install because it must match your system's CUDA toolkit (nvcc) and PyTorch versions. The `--no-build-isolation` flag resolves most issues, but on newer systems you may need to manually choose a compatible flash-attn version. Ensure your CUDA driver/toolkit and torch versions are aligned. Check your environment:
 
@@ -51,6 +61,16 @@ pip list | grep -E 'torch|transformers|flash-attn'
 If issues persist, pick a flash-attn release that matches your versions (CUDA and torch) or ask ChatGPT with its search function for help with the outputs above.
 
 We have verified that `flash-attn==2.7.4.post1` works well with nvcc versions `12.0` and `12.4`.
+
+</details>
+
+<details>
+<summary><b>⚠️ Common Issues2</b></summary>
+If the issue is not related to CUDA, PyTorch, or a compilation failure, but instead caused by the environment and the pip cache being located on <strong>different file systems</strong>, you can <strong>disable the pip cache</strong> and reinstall directly:
+
+```bash
+pip install flash-attn --no-build-isolation --no-cache-dir
+```
 
 </details>
 
