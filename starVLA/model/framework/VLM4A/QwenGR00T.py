@@ -301,13 +301,15 @@ if __name__ == "__main__":
         debugpy.wait_for_client()
 
     cfg = OmegaConf.load(args.config_yaml)
+    action_dim = cfg.framework.action_model.action_dim
+    action_horizon = int(cfg.framework.action_model.action_horizon)
 
     model: Qwen_GR00T = Qwen_GR00T(cfg)
     print(model)
 
     image = Image.fromarray(np.random.randint(0, 255, (224, 224, 3), dtype=np.uint8))
     sample = {
-        "action": np.random.uniform(-1, 1, size=(16, 7)).astype(np.float16),
+        "action": np.random.uniform(-1, 1, size=(action_horizon, action_dim)).astype(np.float16),
         "image": [image],
         "lang": "This is a fake instruction for testing.",
     }

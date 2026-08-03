@@ -302,8 +302,11 @@ class Qwen_PI_v3(baseframework):
             )  # [B, T_full, action_dim]
             actions_target = actions[:, -self.action_horizon :, :]  # (B, action_horizon, action_dim)
 
-            repeated_diffusion_steps = (
-                self.config.trainer.get("repeated_diffusion_steps", 16) if self.config and self.config.trainer else 4
+            # repeated_diffusion_steps = (
+            #     self.config.trainer.get("repeated_diffusion_steps", 16) if self.config and self.config.trainer else 4
+            # )
+            repeated_diffusion_steps = int(
+                self.config.framework.action_model.get("repeated_diffusion_steps", 4)
             )
             
             actions_target_repeated = actions_target.repeat(repeated_diffusion_steps, 1, 1)
@@ -435,6 +438,10 @@ if __name__ == "__main__":
         debugpy.wait_for_client()
     args.config_yaml = "examples/simBenchmarks/LIBERO/train_files/starvla_cotrain_libero.yaml"
     cfg = OmegaConf.load(args.config_yaml)
+    action_dim = cfg.framework.action_model.action_dim
+    action_horizon = int(cfg.framework.action_model.action_horizon)
+    state_dim = cfg.framework.action_model.state_dim
+
     # try get model
     cfg.framework.qwenvl.base_vlm = "./playground/Pretrained_models/Qwen3-VL-4B-Instruct"
 
@@ -462,10 +469,10 @@ if __name__ == "__main__":
     image = Image.fromarray(np.random.randint(0, 255, (224, 224, 3), dtype=np.uint8))
     # Create a sample
     sample = {
-        "action": np.random.uniform(-1, 1, size=(16, 7)).astype(np.float16),  # action_chunk, action_dim
+        "action": np.random.uniform(-1, 1, size=(action_horizon, action_dim)).astype(np.float16),  # action_chunk, action_dim
         "image": [image, image],  # two views
         "lang": "This is a fake instruction for testing.",
-        "state": np.random.uniform(-1, 1, size=(1, 7)).astype(np.float16),  # chunk, state_dim
+        "state": np.random.uniform(-1, 1, size=(1, state_dim)).astype(np.float16),  # chunk, state_dim
     }
 
     batch = [sample, sample]  # batch size 2
