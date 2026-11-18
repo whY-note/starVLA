@@ -1,7 +1,11 @@
 # B3 双臂叠积木训练
 
-使用 `train_starvla.py`、QwenOFT 和单机八卡 DeepSpeed ZeRO-2，接入已有的
+使用 `train_starvla.py`、QwenPI_v3 和单机八卡 DeepSpeed ZeRO-2，接入已有的
 `data_v5_eef_lerobot_v21` 数据集。
+
+动作头为 LayerwiseFM，DiT 隐藏维度为 1024，训练时重复采样 2 次，推理去噪 4 步。
+当前实现从 `trainer.repeated_diffusion_steps` 读取训练重复次数，YAML 使用插值将该值
+绑定到 `framework.action_model.repeated_diffusion_steps`。启动检查支持 QwenPI_v3 与 QwenOFT。
 
 ## 数据与动作语义
 
@@ -63,13 +67,18 @@ BASE_VLM=/path/to/Qwen3-VL-4B-Instruct \
   bash examples/realRobots/B3/train_files/run_train_8gpu.sh
 ```
 
-默认每卡 batch 为 2、梯度累积为 1，全局 batch 为 16；初始训练长度为 10,000 步。
+默认每卡 batch 为 4、梯度累积为 1，全局 batch 为 32；训练长度为 100,000 步，每 2,000 步保存。
 显存不足时可追加 `--datasets.vla_data.per_device_batch_size 1`。
 累积步数与现有 DeepSpeed JSON 固定为 1，检查器会拒绝仅修改训练 YAML 的累积配置。
 脚本先在单进程中检查数据并准备缓存，再启动八个进程；`--check-only` 只运行数据检查。
-默认关闭 W&B，可通过 `WANDB_MODE=online` 和相应 YAML/CLI 设置启用。
+日志模式读取 YAML 的 `swanlab_mode`，当前为 `online`。启动脚本不设置默认的 `SWANLAB_MODE`；
+如果调用者显式设置了该环境变量，则它优先于 YAML。离线记录可设为 `offline`，关闭记录可设为 `disabled`。
+SwanLab 版本固定为 `0.9.8`，与 openpi 环境一致。训练指标、学习率和配置保存到
+`/dev/shm/haowenyan/checkpoints/<run_id>/swanlog/`。
+在线同步前先运行 `.venv/bin/swanlab login`；确认终端中没有残留的 `SWANLAB_MODE=offline`。
+项目与工作空间分别通过 `--swanlab_project`、`--swanlab_workspace` 配置；工作空间为 null 时使用个人空间。
 
 输出目录为 `/dev/shm/haowenyan/checkpoints/<run_id>/`，包含配置、数据统计、周期模型权重与最终权重。
-默认 `run_id` 为 `b3_stack_blocks_qwenoft`；每个任务目录内，周期权重位于 `checkpoints/`，
+默认 `run_id` 为 `b3_stack_blocks_qwenpi_v3`；每个任务目录内，周期权重位于 `checkpoints/`，
 最终权重位于 `final_model/pytorch_model.pt`。
 现有训练器的保存逻辑主要保存模型参数；精确恢复优化器和随机数状态需要另行扩展。

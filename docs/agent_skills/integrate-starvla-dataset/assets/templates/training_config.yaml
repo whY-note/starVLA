@@ -5,8 +5,8 @@
 run_id: starvla_<<TODO_FRAMEWORK>>_<<TODO_BENCH>>_smoke
 run_root_dir: results/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starVLA_<<TODO_BENCH>>
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starVLA_<<TODO_BENCH>>
 is_debug: false
 version_id: "0.21"
 

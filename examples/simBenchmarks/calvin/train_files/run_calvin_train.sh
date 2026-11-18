@@ -25,7 +25,7 @@ export action_input_dim=2048
 ###########################################################################################
 
 
-# export WANDB_MODE=disabled
+# export SWANLAB_MODE=disabled
 
 output_dir=${run_root_dir}/${run_id}
 mkdir -p ${output_dir}
@@ -50,8 +50,8 @@ accelerate launch \
   --trainer.eval_interval 100 \
   --run_root_dir ${run_root_dir} \
   --run_id ${run_id} \
-  --wandb_project starVLA_Calvin \
-  --wandb_entity your_wandb_entity \
+  --swanlab_project starVLA_Calvin \
+  --swanlab_workspace your_swanlab_workspace \
   # --is_debug True
 
 
@@ -70,6 +70,6 @@ accelerate launch \
   #   --framework.qwenvl.base_vlm ${base_vlm} \
   #   --run_root_dir ${run_root_dir} \
   #   --run_id ${run_id} \
-  #   --wandb_project your_project \
-  #   --wandb_entity your_name
+  #   --swanlab_project your_project \
+  #   --swanlab_workspace your_name
 ##### Multi-Server Multi-GPU training script #####

@@ -10,10 +10,10 @@ set -euo pipefail
 # ==============================================================
 #  Platform-specific settings — adjust these for YOUR cluster
 # ==============================================================
-# WandB — set your own key, or run `wandb login` before launching,
-# or uncomment the line below to disable WandB entirely:
-#   export WANDB_MODE=disabled
-export WANDB_API_KEY=<your_wandb_api_key>
+# SwanLab — set your own key, or run `swanlab login` before launching,
+# or uncomment the line below to disable SwanLab entirely:
+#   export SWANLAB_MODE=disabled
+# Set SWANLAB_API_KEY in your environment for online logging.
 
 # NCCL networking — uncomment and edit to match your InfiniBand / RoCE setup:
 #   export NCCL_SOCKET_IFNAME=<your_network_interface>   # e.g. eth0, bond0
@@ -63,4 +63,4 @@ accelerate launch \
   --trainer.eval_interval "${EVAL_EVERY}" \
   --run_root_dir "${run_root_dir}" \
   --run_id "${run_id}" \
-  --wandb_project starVLA_robocasa365
+  --swanlab_project starVLA_robocasa365

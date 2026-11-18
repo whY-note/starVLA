@@ -10,8 +10,8 @@
 run_id: realman_dp
 run_root_dir: results/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starVLA_realman
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starVLA_realman
 is_debug: false
 version_id: "0.21"
 

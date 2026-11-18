@@ -31,8 +31,8 @@ output_dir=${run_root_dir}/${run_id}
 mkdir -p "${output_dir}"
 cp "$0" "${output_dir}/"
 
-# Disable WandB for the walk-through; remove this line and `wandb login` for real runs.
-export WANDB_MODE=${WANDB_MODE:-disabled}
+# Disable SwanLab for the walk-through; remove this line and `swanlab login` for real runs.
+export SWANLAB_MODE=${SWANLAB_MODE:-disabled}
 
 accelerate launch \
   --config_file starVLA/config/deepseeds/deepspeed_zero2.yaml \
@@ -46,4 +46,4 @@ accelerate launch \
   --trainer.eval_interval "${EVAL_EVERY}" \
   --run_root_dir "${run_root_dir}" \
   --run_id "${run_id}" \
-  --wandb_project starVLA_robochallenge_table30v2
+  --swanlab_project starVLA_robochallenge_table30v2

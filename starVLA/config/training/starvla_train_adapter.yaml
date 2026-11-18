@@ -1,8 +1,8 @@
 run_id: starvla
 run_root_dir: path/to/result
 seed: 42
-wandb_entity: your-wandb-entity
-wandb_project: your-wandb-project
+swanlab_workspace: your-swanlab-workspace
+swanlab_project: your-swanlab-project
 is_debug: false
 
 framework:

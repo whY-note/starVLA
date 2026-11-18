@@ -204,9 +204,9 @@ class Args:
     save_video_mode: str = "first_success_failure"
     """'all' | 'first_success_failure' | 'none'"""
 
-    use_wandb: bool = False
-    wandb_entity: str = "your-wandb-entity"
-    wandb_project: str = "starVLA_VLA_Arena"
+    use_swanlab: bool = False
+    swanlab_workspace: str | None = None
+    swanlab_project: str = "starVLA_VLA_Arena"
 
     seed: int = 7
     pretrained_path: str = ""
@@ -379,14 +379,14 @@ def eval_vla_arena(args: Args) -> dict:
         image_size=args.resize_size,
     )
 
-    # WandB (optional)
-    if args.use_wandb:
-        import wandb
+    # SwanLab (optional)
+    if args.use_swanlab:
+        import swanlab
         date_str = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
         run_id = f"EVAL-VLA_Arena-starVLA-{date_str}"
         if args.job_name:
             run_id += f"--{args.job_name}"
-        wandb.init(entity=args.wandb_entity, project=args.wandb_project, name=run_id)
+        swanlab.init(workspace=args.swanlab_workspace, project=args.swanlab_project, name=run_id)
 
     # -----------------------------------------------------------------------
     # Main evaluation loop across suites
@@ -529,9 +529,9 @@ def eval_vla_arena(args: Args) -> dict:
                 f"{task_successes}/{task_episodes} = {task_sr:.4f}"
             )
 
-            if args.use_wandb:
-                import wandb
-                wandb.log({
+            if args.use_swanlab:
+                import swanlab
+                swanlab.log({
                     f"success_rate/{suite_name}/task_{task_id}": task_sr,
                 })
 
@@ -543,9 +543,9 @@ def eval_vla_arena(args: Args) -> dict:
             f"({total_successes}/{total_episodes})  avg_cost={avg_cost:.4f}"
         )
 
-        if args.use_wandb:
-            import wandb
-            wandb.log({
+        if args.use_swanlab:
+            import swanlab
+            swanlab.log({
                 f"success_rate/{suite_name}": suite_sr,
                 f"avg_cost/{suite_name}": avg_cost,
                 f"num_episodes/{suite_name}": total_episodes,
@@ -559,9 +559,9 @@ def eval_vla_arena(args: Args) -> dict:
             "task_level": task_level,
         }
 
-    if args.use_wandb:
-        import wandb
-        wandb.finish()
+    if args.use_swanlab:
+        import swanlab
+        swanlab.finish()
 
     return all_results
 

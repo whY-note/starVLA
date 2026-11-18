@@ -66,7 +66,7 @@ export global_batch_size=$((TOTAL_GPUS * vla_per_device_batch_size)) # 512 is th
 echo "Total GPUs: $TOTAL_GPUS"
 
 
-# export WANDB_MODE=disabled
+# export SWANLAB_MODE=disabled
 
 export output_dir=${run_root_dir}/${run_id}
 mkdir -p ${output_dir}
@@ -98,7 +98,7 @@ srun --jobid $SLURM_JOBID bash -c 'accelerate launch \
   --trainer.learning_rate.base 3e-5 \
   --run_root_dir ${run_root_dir} \
   --run_id ${run_id} \
-  --wandb_project StarVLA_Robocasa \
-  --wandb_entity jinhuiye \
+  --swanlab_project StarVLA_Robocasa \
+  --swanlab_workspace jinhuiye \
   --trainer.is_resume True '
 

@@ -75,6 +75,6 @@ srun --jobid "$SLURM_JOBID" bash -c '
     --trainer.eval_interval 1000 \
     --run_root_dir '"$run_root_dir"' \
     --run_id '"$run_id"' \
-    --wandb_project starVLA_Robotwin \
-    --wandb_entity axi-the-cat
+    --swanlab_project starVLA_Robotwin \
+    --swanlab_workspace axi-the-cat
 '

@@ -25,7 +25,7 @@ run_id=starvla_${data_mix}_qwen3OFT
 ###########################################################################################
 
 
-# export WANDB_MODE=disabled
+# export SWANLAB_MODE=disabled
 
 output_dir=${run_root_dir}/${run_id}
 mkdir -p ${output_dir}
@@ -49,6 +49,6 @@ accelerate launch \
   --trainer.eval_interval 1000 \
   --run_root_dir ${run_root_dir} \
   --run_id ${run_id} \
-  --wandb_project starVLA_DOMINO \
-  --wandb_entity your_wandb_entity
+  --swanlab_project starVLA_DOMINO \
+  --swanlab_workspace your_swanlab_workspace
   # --is_debug True

@@ -71,6 +71,7 @@ class DataArguments:
 @dataclass
 class TrainingArguments(transformers.TrainingArguments):
     cache_dir: Optional[str] = field(default=None)
+    report_to: Optional[List[str]] = field(default_factory=lambda: ["swanlab"])
     optim: str = field(default="adamw_torch")
     model_max_length: int = field(
         default=512,

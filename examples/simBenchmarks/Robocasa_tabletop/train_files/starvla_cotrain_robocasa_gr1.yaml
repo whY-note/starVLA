@@ -1,8 +1,8 @@
 run_id: qwenact
 run_root_dir: results/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starvla
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starvla
 is_debug: false
 version_id: "0.21"
 

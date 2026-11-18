@@ -25,7 +25,7 @@ mkdir -p "${run_root_dir}/${run_id}"
 cp "${SCRIPT_DIR}/run_starvla_qwenoft_g1_sonic_train.sh" "${run_root_dir}/${run_id}/run_starvla_qwenoft_g1_sonic_train.sh"
 cp "${config_yaml#./}" "${run_root_dir}/${run_id}/$(basename "${config_yaml}")"
 
-export WANDB_MODE=${WANDB_MODE:-disabled}
+export SWANLAB_MODE=${SWANLAB_MODE:-disabled}
 export PYTHONPATH="${ROOT_DIR}/starVLA:${PYTHONPATH:-}"
 
 accelerate launch \
@@ -40,4 +40,4 @@ accelerate launch \
     --trainer.eval_interval "${EVAL_EVERY}" \
     --run_root_dir "${run_root_dir}" \
     --run_id "${run_id}" \
-    --wandb_project starVLA_unitree_g1_wholebody
+    --swanlab_project starVLA_unitree_g1_wholebody

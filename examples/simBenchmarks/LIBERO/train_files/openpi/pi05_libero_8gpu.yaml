@@ -1,8 +1,8 @@
 run_id: starvla_pi05_libero_multitask
 run_root_dir: outputs/starvla
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starvla_pi
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starvla_pi
 is_debug: false
 
 framework:

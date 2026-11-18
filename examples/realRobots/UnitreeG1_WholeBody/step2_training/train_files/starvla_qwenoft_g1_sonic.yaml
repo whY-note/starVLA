@@ -1,8 +1,8 @@
 run_id: starvla_qwenoft_g1_sonic_smoke
 run_root_dir: results/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starVLA_unitree_g1_wholebody
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starVLA_unitree_g1_wholebody
 is_debug: false
 version_id: "0.21"
 

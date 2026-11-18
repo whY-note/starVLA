@@ -96,8 +96,8 @@ Empty `reload_modules` means full load all model. However, starVLA does not save
       --framework.qwenvl.base_vlm microsoft/Florence-2-large \
       --run_root_dir ${run_root_dir} \
       --run_id ${run_id} \
-      --wandb_project your_project \
-      --wandb_entity your_name
+      --swanlab_project your_project \
+      --swanlab_workspace your_name
 ```
 
 Note: To ensure better compatibility with already released checkpoints, we are continuing to use `--framework.qwenvl`. This parameter will be unified in the next release.

@@ -1,8 +1,8 @@
 run_id: starvla_qwenoft_robocasa365_OpenDrawer
 run_root_dir: results/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starVLA_robocasa365
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starVLA_robocasa365
 is_debug: false
 version_id: "0.21"
 

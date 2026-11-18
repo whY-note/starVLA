@@ -21,7 +21,26 @@ def require(condition, message):
 
 def validate_recipe(cfg, robot):
     data = cfg.datasets.vla_data
-    require(cfg.framework.name == "QwenOFT", "This B3 recipe expects framework.name=QwenOFT")
+    require(cfg.framework.name in {"QwenOFT", "QwenPI_v3"}, "This B3 recipe supports QwenOFT and QwenPI_v3")
+    if cfg.framework.name == "QwenPI_v3":
+        action = cfg.framework.action_model
+        require(action.get("action_model_type", "LayerwiseFM") == "LayerwiseFM", "QwenPI_v3 requires LayerwiseFM")
+        dit = action.get("diffusion_model_cfg", {})
+        hidden_dim = dit.get("action_dit_hidden_dim", 1024)
+        head_dim = int(dit.get("attention_head_dim", 64))
+        require(head_dim > 0, "attention_head_dim must be positive")
+        if hidden_dim is not None:
+            require(
+                int(hidden_dim) > 0 and int(hidden_dim) % head_dim == 0,
+                "action_dit_hidden_dim must be positive and divisible by attention_head_dim",
+            )
+        repeats = int(action.get("repeated_diffusion_steps", 2))
+        require(repeats > 0, "repeated_diffusion_steps must be positive")
+        require(
+            int(cfg.trainer.get("repeated_diffusion_steps", 16)) == repeats,
+            "QwenPI_v3 reads trainer.repeated_diffusion_steps; keep it equal to the action_model setting",
+        )
+        require(int(action.get("num_inference_timesteps", 4)) > 0, "num_inference_timesteps must be positive")
     require(data.dataset_py == "lerobot_datasets", "Use dataset_py=lerobot_datasets")
     require(data.data_mix == "b3_stack_blocks", "Use data_mix=b3_stack_blocks")
     require(data.get("action_mode", "abs") == "abs", "B3 xyzw commands require action_mode=abs")
@@ -212,6 +231,7 @@ def check_loader(cfg, info, samples, num_workers, report_dir, model_smoke, full_
         require(np.isfinite(prediction).all(), "Non-finite predictions")
 
     report = {
+        "framework": cfg.framework.name,
         "dataset_path": str(dataset.dataset_path),
         "episodes": info["total_episodes"],
         "frames": info["total_frames"],

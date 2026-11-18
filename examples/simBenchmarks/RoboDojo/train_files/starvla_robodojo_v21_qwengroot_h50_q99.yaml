@@ -1,8 +1,8 @@
 run_id: robodojo_v21_all_h50_q99_qwengroot
 run_root_dir: playground/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: llavavla
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: llavavla
 is_debug: false
 version_id: "0.21"
 

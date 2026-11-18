@@ -228,6 +228,9 @@ temp/*
 tmp
 
 wandb/*
+swanlog/
+.swanlab/
+.swanlab_api_key
 
 **/*.pt
 **/*.mp4

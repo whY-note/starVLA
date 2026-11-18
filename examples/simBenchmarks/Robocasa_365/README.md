@@ -148,8 +148,8 @@ enabled. The public YAML sets `include_state: false`.
 
 ## 4. Training
 
-Before using either launcher, remove the placeholder `WANDB_API_KEY` assignment
-or replace it with your own authenticated setup. Never commit a real key.
+For online logging, authenticate with `swanlab login` or set `SWANLAB_API_KEY`
+in your environment. Never commit a real key.
 
 ### Minimal OpenDrawer smoke test
 

@@ -6,7 +6,7 @@
 #     bash examples/realRobots/Realman/train_files/train_realman_act.sh
 #
 # Override smoke defaults with NUM_PROCESSES, BATCH_SIZE, MAX_STEPS, RUN_ID,
-# LOG_DIR, DATA_MIX, WANDB_ENTITY, or LOG_FILE.
+# LOG_DIR, DATA_MIX, SWANLAB_WORKSPACE, or LOG_FILE.
 
 set -euo pipefail
 
@@ -26,11 +26,11 @@ run_root_dir=${RUN_ROOT_DIR:-./results/Checkpoints}
 run_id=${RUN_ID:-$(date +%m%d)_realman_act_smoke}
 ################################################################################
 
-# Set WANDB_MODE=disabled to run without online logging.
+# Set SWANLAB_MODE=disabled to run without online logging.
 num_processes=${NUM_PROCESSES:-4}
 batch_size=${BATCH_SIZE:-8}
 max_steps=${MAX_STEPS:-500}
-wandb_entity=${WANDB_ENTITY:-your_wandb_entity}
+swanlab_workspace=${SWANLAB_WORKSPACE:-your_swanlab_workspace}
 log_dir=${LOG_DIR:-./results/logs}
 mkdir -p "${log_dir}"
 log_file=${LOG_FILE:-${log_dir}/act_smoke_$(date +%Y%m%d_%H%M%S).log}
@@ -77,8 +77,8 @@ accelerate launch \
   --trainer.eval_interval 1000 \
   --run_root_dir "${run_root_dir}" \
   --run_id "${run_id}" \
-  --wandb_project starVLA_realman \
-  --wandb_entity "${wandb_entity}" \
+  --swanlab_project starVLA_realman \
+  --swanlab_workspace "${swanlab_workspace}" \
   2>&1 | tee -a "${log_file}"
 train_rc=${PIPESTATUS[0]}
 set -e

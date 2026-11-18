@@ -8,6 +8,8 @@ wheels
 results
 experiments
 wandb
+swanlog
+.swanlab
 tf-logs
 **/__pycache__
 *.pyc

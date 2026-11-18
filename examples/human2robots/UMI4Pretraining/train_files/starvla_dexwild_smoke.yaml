@@ -2,8 +2,8 @@ run_id: starvla_latest_umi_dexwild_smoke
 run_root_dir: /project/vonneumann1/UMI_data/training_ready/starvla_latest_runs
 seed: 42
 trackers: [jsonl]
-wandb_entity: disabled
-wandb_project: umi-vla
+swanlab_workspace: disabled
+swanlab_project: umi-vla
 is_debug: false
 
 framework:

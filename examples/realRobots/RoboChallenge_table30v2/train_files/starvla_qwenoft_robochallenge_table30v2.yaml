@@ -1,8 +1,8 @@
 run_id: starvla_qwenoft_robochallenge_table30v2_shred_paper
 run_root_dir: results/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starVLA_robochallenge_table30v2
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starVLA_robochallenge_table30v2
 is_debug: false
 version_id: "0.21"
 

@@ -58,8 +58,8 @@ Common overrides:
 DATA_ROOT=/path/to/libero \
 TOKENIZER_MODEL=/path/to/paligemma_tokenizer.model \
 PRETRAINED_CHECKPOINT=/path/to/model.safetensors \
-WANDB_ENTITY=your_wandb_entity \
-WANDB_MODE=disabled \
+SWANLAB_WORKSPACE=your_swanlab_workspace \
+SWANLAB_MODE=disabled \
 bash examples/simBenchmarks/LIBERO/train_files/openpi/run_pi05_libero_8gpu.sh
 ```
 

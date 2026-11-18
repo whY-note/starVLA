@@ -1,8 +1,8 @@
 run_id: minicpm_robotmanip_libero_full_finetune
 run_root_dir: playground/Checkpoints
 seed: 42
-wandb_entity: your_wandb_entity
-wandb_project: starVLA_MiniCPM_RobotManip
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starVLA_MiniCPM_RobotManip
 is_debug: false
 
 framework:

@@ -4,9 +4,9 @@
 run_id: fastumi_discrete_diffusion_real
 run_root_dir: results/Checkpoints
 seed: 42
-trackers: [jsonl, wandb]
-wandb_entity: your_wandb_entity
-wandb_project: starVLA_FastUMI
+trackers: [jsonl, swanlab]
+swanlab_workspace: your_swanlab_workspace
+swanlab_project: starVLA_FastUMI
 is_debug: false
 
 framework:

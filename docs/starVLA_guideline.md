@@ -273,9 +273,20 @@ bash examples/simBenchmarks/LIBERO/train_files/run_libero_train.sh
 ### What to expect
 
 - Checkpoints are saved to `results/Checkpoints/{run_id}/checkpoints/`
-- Training logs go to W&B (set `WANDB_MODE=disabled` to skip)
+- Training logs go to SwanLab (set `SWANLAB_MODE=disabled` to skip)
 - The script copies itself to the output directory for reproducibility
 - With 8× A100/H800 GPUs, training on `libero_all` takes roughly 30K steps (~10 epochs)
+
+This branch uses `swanlab==0.9.8`. Configure the project and workspace with
+`swanlab_project` and `swanlab_workspace` in YAML (or the corresponding CLI flags).
+Set the workspace to `null` for your personal space. Metrics and the full run
+configuration are recorded only by the global main process; local logs are
+written under `<output_dir>/swanlog/`.
+
+Use `SWANLAB_MODE=offline` to record without logging in, or authenticate with
+`swanlab login` and use `SWANLAB_MODE=online` to sync. The B3 launcher uses
+`swanlab_mode` from its YAML unless `SWANLAB_MODE` is explicitly set.
+See the [SwanLab environment variable documentation](https://docs.swanlab.cn/api/environment-variable.html).
 
 ### Adjusting GPU count
 

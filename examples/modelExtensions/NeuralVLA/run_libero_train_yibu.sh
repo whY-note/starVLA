@@ -12,7 +12,7 @@ MODEL_PATH=/workspace/model/models--Qwen--Qwen2.5-VL-3B-Instruct/snapshots/66285
 data_root_dir=/workspace/dataset/libero_goal_no_noops_1.0.0_lerobot/datasets--IPEC-COMMUNITY--libero_goal_no_noops_1.0.0_lerobot/snapshots
 run_root_dir=./playground/Checkpoints
 run_id=1104_neurovla_gru_xiaonao_goal_dualimage_spike_multistep_ac8_768*2_yibu
-export WANDB_MODE=disabled
+export SWANLAB_MODE=disabled
 
 output_dir=${run_root_dir}/${run_id}
 mkdir -p ${output_dir}
@@ -46,8 +46,8 @@ accelerate launch \
   --trainer.save_interval 10000 \
   --run_root_dir ${run_root_dir} \
   --run_id ${run_id} \
-  --wandb_project spikeVLA-MLP \
-  --wandb_entity weiyuguo \
+  --swanlab_project spikeVLA-MLP \
+  --swanlab_workspace weiyuguo \
   # --is_debug True
 
 

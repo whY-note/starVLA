@@ -17,7 +17,7 @@ data_mix=fourier_gr1_unified_1000
 run_root_dir=./playground/Checkpoints
 run_id=debug_starvla_qwen3fast_fourier_gr1_unified_1000
 
-export WANDB_MODE=disabled
+export SWANLAB_MODE=disabled
 
 output_dir=${run_root_dir}/${run_id}
 mkdir -p ${output_dir}
@@ -43,8 +43,8 @@ accelerate launch \
   --trainer.learning_rate.base 3e-5 \
   --run_root_dir ${run_root_dir} \
   --run_id ${run_id} \
-  --wandb_project starVLA_robocasa \
-  --wandb_entity jinhuiye \
+  --swanlab_project starVLA_robocasa \
+  --swanlab_workspace jinhuiye \
   # --is_debug True
 
 

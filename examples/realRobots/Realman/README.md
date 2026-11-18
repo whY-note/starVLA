@@ -7,7 +7,7 @@ The example assumes two RGB streams named `cam0_rgb` and `cam1_rgb`, an eight-di
 Before training:
 
 1. Replace `<your_dataset>` in `train_files/data_registry/data_config.py` with the directory name of your LeRobot dataset.
-2. Set `DATA_ROOT_DIR` to the parent of that directory, and optionally set `WANDB_ENTITY`, `NUM_PROCESSES`, `BATCH_SIZE`, and `MAX_STEPS`.
+2. Set `DATA_ROOT_DIR` to the parent of that directory, and optionally set `SWANLAB_WORKSPACE`, `NUM_PROCESSES`, `BATCH_SIZE`, and `MAX_STEPS`.
 3. Activate a StarVLA environment with the dependencies required by the selected policy.
 
 Run either recipe from the repository root:

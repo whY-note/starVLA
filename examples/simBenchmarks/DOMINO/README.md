@@ -112,7 +112,7 @@ Edit the user-facing settings in [run_domino_train.sh](./train_files/run_domino_
 - `run_root_dir`
 - `data_mix`
 - `run_id`
-- `wandb_entity`
+- `swanlab_workspace`
 
 Then start training from the repository root:
 

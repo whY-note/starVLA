@@ -22,8 +22,8 @@ TOKENIZER_MODEL="${TOKENIZER_MODEL:-paligemma_tokenizer.model}"
 PRETRAINED_CHECKPOINT="${PRETRAINED_CHECKPOINT:-openpi_converted_protocol/pi0_base_starvla/fp32/model.safetensors}"
 RUN_ROOT_DIR="${RUN_ROOT_DIR:-outputs/starvla}"
 RUN_ID="${RUN_ID:-openpi_pi0_libero_8gpu}"
-WANDB_PROJECT="${WANDB_PROJECT:-starvla_pi}"
-WANDB_ENTITY="${WANDB_ENTITY:-your_wandb_entity}"
+SWANLAB_PROJ_NAME="${SWANLAB_PROJ_NAME:-starvla_pi}"
+SWANLAB_WORKSPACE="${SWANLAB_WORKSPACE:-your_swanlab_workspace}"
 PER_DEVICE_BATCH_SIZE="${PER_DEVICE_BATCH_SIZE:-4}"
 NUM_WORKERS="${NUM_WORKERS:-4}"
 PREFETCH_FACTOR="${PREFETCH_FACTOR:-2}"
@@ -68,5 +68,5 @@ accelerate launch \
   --trainer.save_interval 1000 \
   --run_root_dir "${RUN_ROOT_DIR}" \
   --run_id "${RUN_ID}" \
-  --wandb_project "${WANDB_PROJECT}" \
-  --wandb_entity "${WANDB_ENTITY}"
+  --swanlab_project "${SWANLAB_PROJ_NAME}" \
+  --swanlab_workspace "${SWANLAB_WORKSPACE}"

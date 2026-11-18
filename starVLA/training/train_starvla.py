@@ -31,7 +31,6 @@ try:
 except ImportError:
     pass
 
-import wandb
 from accelerate import Accelerator, DeepSpeedPlugin
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
@@ -45,6 +44,7 @@ from starVLA.dataloader import build_dataloader
 from starVLA.model.framework.base_framework import build_framework
 from starVLA.model.framework.share_tools import apply_config_compat
 from starVLA.training.trainer_utils.config_tracker import AccessTrackedConfig, wrap_config
+from starVLA.training.trainer_utils.swanlab_tracker import SwanLabTrackingMixin
 from starVLA.training.trainer_utils.trainer_tools import TrainerUtils, build_param_lr_groups, setup_optimizer_and_scheduler, normalize_dotlist_args
 
 deepspeed_plugin = None if os.environ.get("STARVLA_DISABLE_DEEPSPEED") == "1" else DeepSpeedPlugin()
@@ -127,7 +127,7 @@ def setup_optimizer_and_scheduler(model, cfg) -> Tuple[torch.optim.Optimizer, to
     return optimizer, lr_scheduler
 
 
-class VLATrainer(TrainerUtils):
+class VLATrainer(SwanLabTrackingMixin, TrainerUtils):
     def __init__(self, cfg, model, vla_train_dataloader, optimizer, lr_scheduler, accelerator):
         self.config = cfg
         self.model = model
@@ -167,7 +167,7 @@ class VLATrainer(TrainerUtils):
             self.vla_train_dataloader,
         )
 
-        self._init_wandb()
+        self._init_swanlab()
 
     def _calculate_total_batch_size(self):
         """Calculate global batch size."""
@@ -176,34 +176,6 @@ class VLATrainer(TrainerUtils):
             * self.accelerator.num_processes
             * self.accelerator.gradient_accumulation_steps
         )
-
-    def _init_wandb(self):
-        """Initialize Weights & Biases (best-effort; must not block training)."""
-        self._wandb_enabled = False
-        if os.environ.get("WANDB_MODE") == "disabled" or os.environ.get("WANDB_DISABLED", "").lower() in {
-            "1",
-            "true",
-            "yes",
-        }:
-            self.accelerator.wait_for_everyone()
-            return
-        if self.accelerator.is_main_process:
-            try:
-                wandb.init(
-                    name=self.config.run_id,
-                    dir=os.path.join(self.config.output_dir, "wandb"),
-                    project=self.config.wandb_project,
-                    entity=self.config.wandb_entity,
-                    group="vla-train",
-                )
-                self._wandb_enabled = True
-            except Exception as exc:
-                logger.warning(f"W&B init failed; continuing without W&B: {exc}")
-                self._wandb_enabled = False
-        # Rendezvous after rank-0 W&B init. Otherwise a slow or failing init on
-        # rank 0 lets the other ranks reach the first collective alone and
-        # eventually hit an NCCL watchdog timeout.
-        self.accelerator.wait_for_everyone()
 
     def _save_initial_configs(self):
         """Save full config and training script at the very start of training."""
@@ -311,12 +283,7 @@ class VLATrainer(TrainerUtils):
                 group_name = group.get("name", str(i))
                 metrics[f"learning_rate/{group_name}"] = last_lrs[i] if i < len(last_lrs) else last_lrs[-1]
             metrics["epoch"] = round(self.completed_steps / len(self.vla_train_dataloader), 2)
-            if getattr(self, "_wandb_enabled", False):
-                try:
-                    wandb.log(metrics, step=self.completed_steps)
-                except Exception as exc:
-                    self._wandb_enabled = False
-                    logger.warning(f"W&B log failed; disabling W&B: {exc}")
+            self._log_swanlab(metrics, step=self.completed_steps)
             logger.info(f"Step {self.completed_steps}, Loss: {metrics})")
 
     def _create_data_iterators(self):
@@ -457,11 +424,7 @@ class VLATrainer(TrainerUtils):
                 raise ValueError(f"Unsupported save_format `{save_format}`. Expected `pt` or `safetensors`.")
             logger.info(f"Training complete. Final model saved at {final_checkpoint}")
 
-        if self.accelerator.is_main_process and getattr(self, "_wandb_enabled", False):
-            try:
-                wandb.finish()
-            except Exception:
-                pass
+        self._finish_swanlab()
 
         self.accelerator.wait_for_everyone()
 

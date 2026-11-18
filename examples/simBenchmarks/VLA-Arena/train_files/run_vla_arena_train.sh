@@ -70,8 +70,8 @@ accelerate launch \
   --trainer.eval_interval 100 \
   --run_root_dir ${run_root_dir} \
   --run_id ${run_id} \
-  --wandb_project starVLA_VLA_Arena \
-  --wandb_entity your_wandb_entity
+  --swanlab_project starVLA_VLA_Arena \
+  --swanlab_workspace your_swanlab_workspace
   # --is_debug True
 
 
@@ -91,5 +91,5 @@ accelerate launch \
 #   --framework.qwenvl.base_vlm ${base_vlm} \
 #   --run_root_dir ${run_root_dir} \
 #   --run_id ${run_id} \
-#   --wandb_project starVLA_VLA_Arena \
-#   --wandb_entity your_wandb_entity
+#   --swanlab_project starVLA_VLA_Arena \
+#   --swanlab_workspace your_swanlab_workspace
